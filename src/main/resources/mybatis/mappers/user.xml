@@ -26,5 +26,28 @@
 			and password = #{password}
 		]]>
 	</select>
+	
+	<!-- 수정폼 : 회원정보 -->
+	<select id="selectUser2" parameterType="int" resultType="UserVo">
+		<![CDATA[
+			SELECT  id,
+					password,
+			        name,
+			        gender
+			FROM users
+			where no = #{no}
+		]]>
+	</select>
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="UserVo">
+		<![CDATA[
+			update users
+			set password = #{password},
+			    name = #{name},
+			    gender = #{gender}
+			where no = #{no}
+		]]>
+	</update>
 
 </mapper>

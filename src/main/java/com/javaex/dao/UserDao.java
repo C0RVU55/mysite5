@@ -41,4 +41,26 @@ public class UserDao {
 		
 		return sqlSession.selectOne("user.selectUser", uVo);
 	}
+	
+	//회원 정보 가져오기 (로그인 메소드 오버라이딩)
+	public UserVo selectUser(int no) {
+		System.out.println("user dao mform");
+		
+		//UserVo vo = sqlSession.selectOne("user.selectUser2", no);
+		//System.out.println("user dao mform -->"+vo);
+		
+		return sqlSession.selectOne("user.selectUser2", no);
+	}
+	
+	//수정
+	public int modify(UserVo uVo) {
+		System.out.println("user dao modify");
+		
+		//System.out.println(uVo.toString());
+		
+		int count = sqlSession.update("user.update", uVo);
+		System.out.println("user dao modify count: "+count);
+		
+		return count;
+	}
 }

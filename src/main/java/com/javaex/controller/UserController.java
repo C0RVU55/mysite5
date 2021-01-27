@@ -4,9 +4,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.dao.UserDao;
 import com.javaex.vo.UserVo;
@@ -78,6 +80,38 @@ public class UserController {
 		
 		session.removeAttribute("authUser");
 		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	//수정폼
+	@RequestMapping(value="/mform", method= {RequestMethod.GET, RequestMethod.POST})
+	public String modifyForm(HttpSession session, Model model) {
+		System.out.println("/user/mform");
+		
+		UserVo vo = (UserVo)session.getAttribute("authUser");
+		UserVo uVo = uDao.selectUser(vo.getNo());
+		
+		model.addAttribute("uVo", uVo);
+		
+		return "user/modifyForm";
+	}
+	
+	//수정
+	@RequestMapping(value="/modify", method= {RequestMethod.GET, RequestMethod.POST})
+	public String modify(@RequestParam("password") String password, 
+					@RequestParam("name") String name, 
+					@RequestParam("gender") String gender, 
+					HttpSession session) {
+		System.out.println("/user/modify");
+		
+		UserVo vo = (UserVo)session.getAttribute("authUser");
+		UserVo uVo = new UserVo(vo.getNo(), password, name, gender);
+		
+		uDao.modify(uVo);
+		
+		//세션 회원정보(이름) 갱신
+		vo.setName(name);
 		
 		return "redirect:/";
 	}
