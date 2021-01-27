@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- alias 써서 쿼리문xml의 parameterTypem, resultType 주소 줄이기-->
+    <typeAliases>
+    	<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" />
+    </typeAliases>
+
+    <mappers>
+   		<mapper resource="mybatis/mappers/user.xml" /> <!-- 여기에 쿼리문xml 경로 추가-->
+    </mappers>
+</configuration>
