@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javaex.dao.UserDao;
+import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 	
-	//필드
+	//필드 (컨트롤러는 서비스한테만 일시키고 서비스는 다오한테만 일시킴. 다오는 이제 DB접근 관련 기능만 갖게 됨)
 	@Autowired
 	private UserDao uDao;
+	
+	@Autowired
+	private UserService userService;
 
 	//회원가입폼
 	@RequestMapping(value="/joinForm", method= {RequestMethod.GET, RequestMethod.POST})
@@ -40,7 +44,10 @@ public class UserController {
 		System.out.println("UserController count "+count);
 		*/
 		
-		uDao.insert(uVo);
+		//uDao.insert(uVo);
+		
+		//ctrl+클릭하면 메소드 있는 데로 넘어감. count로 받는 건 쓸 데 있을 때 쓰면 됨.
+		int count = userService.join(uVo); 
 		
 		return "user/joinOk";
 	}
@@ -59,8 +66,10 @@ public class UserController {
 		System.out.println("/user/login");
 		System.out.println(uVo.toString());
 		
-		UserVo authUser = uDao.selectUser(uVo);
+		//UserVo authUser = uDao.selectUser(uVo);
 		//System.out.println("ctrl --> "+authUser);
+		
+		UserVo authUser = userService.login(uVo);
 		
 		//로그인 실패 --> result파라미터 넘겨서 로그인폼 재요청해서 실패문구 띄우기
 		if(authUser == null) {
@@ -89,9 +98,16 @@ public class UserController {
 	public String modifyForm(HttpSession session, Model model) {
 		System.out.println("/user/mform");
 		
+		//세션에서 no 가져오기
 		UserVo vo = (UserVo)session.getAttribute("authUser");
-		UserVo uVo = uDao.selectUser(vo.getNo());
+		//int no = ((UserVo)session.getAttribute("authUser")).getNo(); --> 이게 나음
 		
+		//UserVo uVo = uDao.selectUser(vo.getNo());
+		
+		//회원정보 가져오기
+		UserVo uVo = userService.modifyForm(vo.getNo());
+		
+		//jsp에 데이터 보내기
 		model.addAttribute("uVo", uVo);
 		
 		return "user/modifyForm";
@@ -108,11 +124,15 @@ public class UserController {
 		UserVo vo = (UserVo)session.getAttribute("authUser");
 		UserVo uVo = new UserVo(vo.getNo(), password, name, gender);
 		
-		uDao.modify(uVo);
+		//파라미터로 안 받고 모델로 받았을 때 세션의 no 추가하는 법
+		//userVo.setNo(vo.getNo());
+		
+		//uDao.modify(uVo);
+		userService.modify(uVo);
 		
 		//세션 회원정보(이름) 갱신
 		vo.setName(name);
-		
+
 		return "redirect:/";
 	}
 }

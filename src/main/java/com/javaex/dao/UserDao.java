@@ -42,7 +42,7 @@ public class UserDao {
 		return sqlSession.selectOne("user.selectUser", uVo);
 	}
 	
-	//회원 정보 가져오기 (로그인 메소드 오버라이딩)
+	//회원 정보 가져오기 (로그인 메소드 오버로딩)
 	public UserVo selectUser(int no) {
 		System.out.println("user dao mform");
 		
@@ -58,9 +58,9 @@ public class UserDao {
 		
 		//System.out.println(uVo.toString());
 		
-		int count = sqlSession.update("user.update", uVo);
-		System.out.println("user dao modify count: "+count);
+		//int count = sqlSession.update("user.update", uVo);
+		//System.out.println("user dao modify count: "+count);
 		
-		return count;
+		return sqlSession.update("user.update", uVo);
 	}
 }
