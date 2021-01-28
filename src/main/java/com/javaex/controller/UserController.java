@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.javaex.dao.UserDao;
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
@@ -19,9 +18,8 @@ import com.javaex.vo.UserVo;
 public class UserController {
 	
 	//필드 (컨트롤러는 서비스한테만 일시키고 서비스는 다오한테만 일시킴. 다오는 이제 DB접근 관련 기능만 갖게 됨)
-	@Autowired
-	private UserDao uDao;
-	
+	//@Autowired
+	//private UserDao uDao;
 	@Autowired
 	private UserService userService;
 
