@@ -4,11 +4,13 @@
 
 <configuration>
 	<!-- alias 써서 쿼리문xml의 parameterTypem, resultType 주소 줄이기-->
-    <typeAliases>
+    <typeAliases> <!-- alias 추가는 이 태그 안에서 -->
     	<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" />
+    	<typeAlias alias="GuestVo" type="com.javaex.vo.GuestVo" />
     </typeAliases>
 
-    <mappers>
-   		<mapper resource="mybatis/mappers/user.xml" /> <!-- 여기에 쿼리문xml 경로 추가-->
+    <mappers> <!-- 여기에 쿼리문xml 경로 추가-->
+   		<mapper resource="mybatis/mappers/user.xml" />
+   		<mapper resource="mybatis/mappers/guestbook.xml" /> 
     </mappers>
 </configuration>
