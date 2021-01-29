@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	
+	<!-- alias 적용 -->
+	
+	<!-- 리스트 -->
+	<select id="selectList" resultType="BoardVo"> 
+		<![CDATA[ 
+			SELECT  b.no,
+			        title,
+			        content,
+			        hit,
+			        to_char(reg_date, 'YYYY-MM-DD') regDate,
+			        user_no userNo,
+			        name
+			FROM board b, users u
+			where b.user_no = u.no
+			order by b.no desc
+		]]>
+	</select>
+	
+	<!-- 글 읽기 -->
+	<select id="selectPosting" parameterType="int" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  b.no,
+			        name,
+			        hit,
+			        to_char(reg_date, 'YYYY-MM-DD') regDate,
+			        title,
+			        content,
+			        user_no userNo
+			FROM board b, users u
+			where  b.user_no = u.no
+			and b.no = #{no}
+		]]>
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="hitUpdate" parameterType="int">
+		<![CDATA[ 
+			update board
+			set hit = hit + 1
+			where no = #{no}
+		]]>
+	</update>
+	
+	<!-- 글 등록 -->
+	<insert id="insert" parameterType="BoardVo">
+		<![CDATA[ 
+			insert into board
+			values(seq_board_no.nextval, 
+			       #{title}, 
+			       #{content}, 
+			       0, 
+			       sysdate, 
+			       #{userNo})
+		]]>
+	</insert>
+	
+</mapper>
