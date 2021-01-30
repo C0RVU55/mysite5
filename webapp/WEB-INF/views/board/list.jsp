@@ -72,7 +72,7 @@
 									<td>${vo.regDate }</td>
 									<td>
 										<c:if test="${vo.userNo == sessionScope.authUser.no }">
-											<a href="${pageContext.request.contextPath }/board/delete?no=${vo.no}">[삭제]</a>
+											<a href="${pageContext.request.contextPath }/board/remove?no=${vo.no}">[삭제]</a>
 										</c:if>
 									</td>
 								</tr>

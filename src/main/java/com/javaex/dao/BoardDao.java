@@ -56,7 +56,27 @@ public class BoardDao {
 		return sqlSession.insert("board.insert", bVo);
 	}
 
-	
+	//삭제
+	public int delete(int no) {
+		System.out.println("bDao delete()--> "+no);
+		
+		return sqlSession.delete("board.delete", no);
+	}
 
+	//수정폼 정보 불러오기
+	public BoardVo selectModi(int no) {
+		System.out.println("bDao selectModi()--> "+no);
+		
+		//BoardVo vo = sqlSession.selectOne("board.selectPosting", no);
+		//System.out.println(vo);
+		
+		return sqlSession.selectOne("board.selectPosting", no);
+	}
 	
+	//수정
+	public int update(BoardVo bVo) {
+		System.out.println("bDao update()--> "+bVo);
+		
+		return sqlSession.update("board.update", bVo);
+	}
 }
