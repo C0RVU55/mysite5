@@ -35,7 +35,7 @@ public class BoardService {
 		
 		//UserVo authUser = (UserVo)object;
 		
-		/*
+		/* 아직 못함
 		//본인글인지 아닌지 확인 --> 조회수 증가시킨 후 게시글 정보 가져오기
 		if(authUser != null || authUser.getNo() != bDao.selectPosting(no).getUserNo()) {
 			bDao.hitUpdate(no);
