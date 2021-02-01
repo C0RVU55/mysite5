@@ -10,6 +10,10 @@ public class BoardVo {
 	private String regDate;
 	private int userNo;
 	private String name;
+	
+	private int group_no;
+	private int order_no;
+	private int depth;
 
 
 	// 생성자

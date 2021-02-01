@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<!-- 리스트 -->
+	<select id="selectList" resultType="BoardVo"> 
+		<![CDATA[ 
+			SELECT  no,
+			        user_no,
+			        title,
+			        content,
+			        hit,
+			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
+			        group_no,
+			        order_no,
+			        depth
+			FROM rboard
+		]]>
+	</select>
+	
+	<!-- 글 읽기 -->
+	<select id="selectPosting" parameterType="int" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  no,
+			        user_no,
+			        title,
+			        content,
+			        hit,
+			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
+			        group_no,
+			        order_no,
+			        depth
+			FROM rboard
+			where no=#{no}
+		]]>
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="hitUpdate" parameterType="int">
+		<![CDATA[ 
+			update rboard
+			set hit = hit + 1
+			where no = #{no}
+		]]>
+	</update>
+	
+	<!-- 글 등록 (no, user_no, title, content, hit, reg_date, group_no, order_no, depth) -->
+	<!-- no랑 group no 같아야 되서 일단 같은 시퀀스 넣음 -->
+	<insert id="insert" parameterType="BoardVo">
+		<![CDATA[ 
+			insert into rboard
+			values(seq_rboard_no.nextval, 
+			       1, 
+			       #{title}, 
+			       #{content}, 
+			       0, 
+			       sysdate, 
+			       seq_rboard_no.nextval, 
+			       1, 0)
+		]]>
+	</insert>
+
+
+
+
+
+
+
+</mapper>
