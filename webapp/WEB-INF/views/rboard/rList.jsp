@@ -67,9 +67,11 @@
 								<tr>
 									<td>${vo.no }</td>
 									<td class="text-left">
-									<c:if test="${vo.depth != 0}">
-										<c:forEach items="" var="depth">
-											
+									
+									<!-- 답글 제목 앞에 depth만큼 공백 넣기 / &nbsp; : non-breaking space -->
+									<c:if test="${vo.depth ne 0}">
+										<c:forEach begin="1" end="${vo.depth }">
+											&nbsp;&nbsp;&nbsp;
 										</c:forEach>
 									</c:if>
 									

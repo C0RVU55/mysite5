@@ -20,6 +20,12 @@ import com.javaex.vo.UserVo;
 @RequestMapping(value="/rboard")
 public class RboardController {
 
+	/*
+	페이징, 마이바티스 if문
+	링크 이름 잘 바꿨나 확인
+	추가 : 검색, 로그인 세션, 삭제 정책
+	*/
+	
 	//필드
 	@Autowired
 	private RboardService rboardService;

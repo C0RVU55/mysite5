@@ -13,8 +13,8 @@
 			        content,
 			        hit,
 			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
-			        group_no,
-			        order_no,
+			        group_no groupNo,
+			        order_no orderNo,
 			        depth,
 			        u.name
 			FROM rboard rb, users u
@@ -32,8 +32,8 @@
 			        content,
 			        hit,
 			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
-			        group_no,
-			        order_no,
+			        group_no groupNo,
+			        order_no orderNo,
 			        depth,
 			        u.name
 			FROM rboard rb, users u
@@ -52,7 +52,7 @@
 	</update>
 	
 	<!-- 글 등록 (no, user_no, title, content, hit, reg_date, group_no, order_no, depth) -->
-	<!-- no랑 group no 같아야 되서 일단 같은 시퀀스 넣음 -->
+	<!-- no랑 group no 같아야 되서 일단 같은 시퀀스 넣음 : nextval이 아니라 currval(현재 시퀀스 확인) -->
 	<insert id="insert" parameterType="BoardVo">
 		<![CDATA[ 
 			insert into rboard
@@ -84,6 +84,7 @@
 	</insert>
 
 	<!-- 정렬 -->
+	<!-- 같은 그룹의 글들 중 새 댓글의 order_no보다 같거나 큰 글들의 order_no는 1씩 더해져야 한다. ??? -->
 	<update id="rawUpdate" parameterType="BoardVo">
 	<![CDATA[ 
 		update rboard 

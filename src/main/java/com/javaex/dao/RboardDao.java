@@ -61,7 +61,7 @@ public class RboardDao {
 		return sqlSession.insert("rboard.reInsert", bVo);
 	}
 	
-	//열 정리 (같은 그룹 내에서 순서번호는 계속 늘어나고 들여쓰기는 
+	//열 정리 (같은 그룹 내에서 순서번호는 계속 늘어남)
 	public void rawUpdate(BoardVo bVo) {
 		System.out.println("bDao rawUpdate()");
 		
