@@ -29,7 +29,7 @@ start with 1
 nocache;
 
 --출력
-SELECT  no,
+SELECT  rb.no,
         user_no,
         title,
         content,
@@ -37,8 +37,10 @@ SELECT  no,
         TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
         group_no,
         order_no,
-        depth
-FROM rboard
+        depth,
+        u.name
+FROM rboard rb, users u
+where rb.user_no = u.no
 order by group_no desc, order_no asc;
 
 --입력
@@ -47,13 +49,13 @@ insert into rboard
 values(seq_rboard_no.nextval, 1, '제목1', 'xxx', 0, sysdate, 1, 1, 0);
 
 insert into rboard
-values(seq_rboard_no.nextval, 1, '제목2', 'ccc', 0, sysdate, seq_rboard_no.nextval, 1, 0);
+values(seq_rboard_no.nextval, 1, '제목2', 'ccc', 0, sysdate, seq_rboard_no.currval, 1, 0);
 
 insert into rboard
 values(seq_rboard_no.nextval, 1, '제목3', 'vvv', 0, sysdate, seq_rboard_no.nextval, 1, 0);
 
 --글정보
-SELECT  no,
+SELECT  rb.no,
         user_no,
         title,
         content,
@@ -61,9 +63,11 @@ SELECT  no,
         TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
         group_no,
         order_no,
-        depth
-FROM rboard
-where no=1;
+        depth,
+        u.name
+FROM rboard rb, users u
+where rb.user_no = u.no
+and rb.no=1;
 
 --조회수
 update rboard

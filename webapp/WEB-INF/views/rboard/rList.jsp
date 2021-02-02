@@ -66,17 +66,26 @@
 							<c:forEach items="${bList }" var="vo">
 								<tr>
 									<td>${vo.no }</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath }/rboard/rRead?no=${vo.no}">${vo.title }</a></td>
+									<td class="text-left">
+									<c:if test="${vo.depth != 0}">
+										<c:forEach items="" var="depth">
+											
+										</c:forEach>
+									</c:if>
+									
+										<a href="${pageContext.request.contextPath }/rboard/rRead?no=${vo.no}">${vo.title }</a>
+									</td>
 									<td>${vo.name }</td>
 									<td>${vo.hit }</td>
 									<td>${vo.regDate }</td>
 									<td>
 										<c:if test="${vo.userNo == sessionScope.authUser.no }">
-											<a href="${pageContext.request.contextPath }/board/remove?no=${vo.no}">[삭제]</a>
+											<a href="${pageContext.request.contextPath }/rboard/remove?no=${vo.no}">[삭제]</a>
 										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
+							
 						</tbody>
 					</table>
 		

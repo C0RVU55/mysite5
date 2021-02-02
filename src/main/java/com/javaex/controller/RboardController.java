@@ -78,10 +78,12 @@ public class RboardController {
 	
 	//답글쓰기폼 
 	@RequestMapping(value="reWriteForm", method= {RequestMethod.GET, RequestMethod.POST})
-	public String reWriteForm() {
-		System.out.println("/rboard/reWriteForm");
+	public String reWriteForm(@ModelAttribute BoardVo bVo, Model model) {
+		System.out.println("/rboard/reWriteForm --> "+bVo);
 		
 		//추후 로그인 여부 확인 추가
+		
+		model.addAttribute("bVo", bVo);
 		
 		return "rboard/reWriteForm";
 	}
@@ -89,7 +91,7 @@ public class RboardController {
 	//답글쓰기
 	@RequestMapping(value="reWrite", method= {RequestMethod.GET, RequestMethod.POST})
 	public String reWrite(@ModelAttribute BoardVo bVo) {
-		System.out.println("/rboard/reWrite");
+		System.out.println("/rboard/reWrite --> "+bVo);
 		
 		rboardService.reWrite(bVo);
 		

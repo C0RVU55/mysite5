@@ -61,9 +61,10 @@
 						<a id="btn_cancel" href="${pageContext.request.contextPath }/rboard/rList">취소</a>
 						<button id="btn_add" type="submit" >등록</button>
 
-						<input type="hidden" name="groupNo" value="${param.groupNo }">
-						<input type="hidden" name="groupNo" value="${param.orderNo }">
-						<input type="hidden" name="groupNo" value="${param.depth }">
+						<!-- 미친거 아니냐 여기 name 다 groupNo으로 해놔서 orderNo에 0 들어와서 원글(1)-답글(2)순이 아니라 답글(1)-원글(2)순으로 됨 -->
+						<input type="hidden" name="groupNo" value="${bVo.groupNo }"> 
+						<input type="hidden" name="orderNo" value="${bVo.orderNo }">
+						<input type="hidden" name="depth" value="${bVo.depth }">
 					</form>
 	                <!-- //form -->
 				</div>

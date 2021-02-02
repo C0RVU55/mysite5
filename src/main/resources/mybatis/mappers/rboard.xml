@@ -7,7 +7,26 @@
 	<!-- 리스트 -->
 	<select id="selectList" resultType="BoardVo"> 
 		<![CDATA[ 
-			SELECT  no,
+			SELECT  rb.no,
+			        user_no userNo,
+			        title,
+			        content,
+			        hit,
+			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
+			        group_no,
+			        order_no,
+			        depth,
+			        u.name
+			FROM rboard rb, users u
+			where rb.user_no = u.no
+			order by group_no desc, order_no asc
+		]]>
+	</select>
+	
+	<!-- 글 읽기 -->
+	<select id="selectPosting" parameterType="int" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  rb.no,
 			        user_no,
 			        title,
 			        content,
@@ -15,26 +34,11 @@
 			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
 			        group_no,
 			        order_no,
-			        depth
-			FROM rboard
-			order by no desc, order_no asc
-		]]>
-	</select>
-	
-	<!-- 글 읽기 -->
-	<select id="selectPosting" parameterType="int" resultType="BoardVo">
-		<![CDATA[ 
-			SELECT  no,
-			        user_no,
-			        title,
-			        content,
-			        hit,
-			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
-			        group_no groupNo,
-			        order_no orderNo,
-			        depth
-			FROM rboard
-			where no=#{no}
+			        depth,
+			        u.name
+			FROM rboard rb, users u
+			where rb.user_no = u.no
+			and rb.no = #{no}
 		]]>
 	</select>
 	
@@ -58,12 +62,12 @@
 			       #{content}, 
 			       0, 
 			       sysdate, 
-			       seq_rboard_no.nextval, 
+			       seq_rboard_no.currval, 
 			       1, 0)
 		]]>
 	</insert>
 	
-	<!-- 답글 -->
+	<!-- 답글 쓰기 -->
 	<insert id="reInsert" parameterType="BoardVo">
 		<![CDATA[ 
 			insert into rboard
@@ -74,7 +78,8 @@
 			       0, 
 			       sysdate, 
 			       #{groupNo}, 
-			       1, 0)
+			       #{orderNo}, 
+			       #{depth})
 		]]>
 	</insert>
 
@@ -84,11 +89,11 @@
 		update rboard 
 		set order_no = order_no + 1 
 		where group_no = #{groupNo}
-		and order_no > #{orderNo}
+		and order_no >= #{orderNo}
 	]]>
 	</update>
 
-	<!-- 들여쓰기 -->
+	<!-- 들여쓰기 (depth는 여기서 하는 게 아니라 서비스에서 더함)
 	<update id="depthUpdate" parameterType="BoardVo">
 	<![CDATA[ 
 		update rboard 
@@ -96,7 +101,7 @@
 		where group_no = #{groupNo}
 	]]>
 	</update>
-
+	-->
 
 
 </mapper>

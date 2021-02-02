@@ -49,10 +49,12 @@ public class RboardService {
 	// 답글쓰기
 	public void reWrite(BoardVo bVo) {
 		System.out.println("B service rewrite()");
-
-		rboardDao.reInsert(bVo);
+		
+		bVo.setOrderNo(bVo.getOrderNo()+1);
+		bVo.setDepth(bVo.getDepth()+1);
+		
 		rboardDao.rawUpdate(bVo);
-		rboardDao.depthUpdate(bVo);
+		rboardDao.reInsert(bVo);
 
 	}
 }
