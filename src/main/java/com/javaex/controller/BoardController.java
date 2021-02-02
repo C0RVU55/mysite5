@@ -28,6 +28,16 @@ public class BoardController {
 	1.본인글 조회수 안 올라가게 하기
 	2.검색 추가하기
 	*/
+	/*
+	- 다이어그램에서 조회수 올리는 걸 먼저 써야 됨. 이 순서도 의미가 있음
+	- 서비스에서 컨트롤러로 값 여러가지 넘기고 싶으면 map 사용
+	- session은 웹브라우저에서만 쓰는 기술이라 controller에서 처리하는 게 좋음. 
+	  (아니면 맞는 방법은 아니지만 controller에서 session 받아서 서비스에 넘기든가) 
+	  왜냐하면 session이 service까지 들어갔을 경우 session에 관한 변경사항이 있을 때 service까지 수정해야 하기 때문. 
+	  왠만하면 controller에서 끝내는 게 좋음.
+	- 공식 시퀀스 다이어그램 문법 알아보기
+	- 검색은 파라미터 request=false 써보기
+	*/
 	
 	//리스트
 	@RequestMapping(value="/list", method= {RequestMethod.GET, RequestMethod.POST})
