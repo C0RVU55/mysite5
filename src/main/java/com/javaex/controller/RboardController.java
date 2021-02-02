@@ -33,27 +33,27 @@ public class RboardController {
 		
 		model.addAttribute("bList", bList);
 		
-		return "rboard/rlist";
+		return "rboard/rList";
 	}
 	
 	//읽기
-	@RequestMapping(value="/read", method= {RequestMethod.GET, RequestMethod.POST})
-	public String read(@RequestParam("no") int no, Model model) {
-		System.out.println("/rboard/read");
+	@RequestMapping(value="/rRead", method= {RequestMethod.GET, RequestMethod.POST})
+	public String rRead(@RequestParam("no") int no, Model model) {
+		System.out.println("/rboard/rread");
 		
 		//System.out.println("/board/read "+boardService.read(no));
 				
-		BoardVo bVo = rboardService.read(no);
+		BoardVo bVo = rboardService.rRead(no);
 		
 		model.addAttribute("bVo", bVo);
 		
-		return "rboard/read";
+		return "rboard/rRead";
 	}
 	
 	//글쓰기
-	@RequestMapping(value="/wform", method= {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/rwform", method= {RequestMethod.GET, RequestMethod.POST})
 	public String rWriteForm(HttpSession session) {
-		System.out.println("/rboard/wform");
+		System.out.println("/rboard/rwform");
 		
 		//로그인 여부 확인
 		int userNo = ((UserVo)session.getAttribute("authUser")).getNo();
@@ -63,8 +63,8 @@ public class RboardController {
 	
 	//글 등록
 	@RequestMapping(value="/rWrite", method= {RequestMethod.GET, RequestMethod.POST})
-	public String write(@ModelAttribute BoardVo bVo, HttpSession session) {
-		System.out.println("/board/rWrite");
+	public String rWrite(@ModelAttribute BoardVo bVo, HttpSession session) {
+		System.out.println("/rboard/rWrite");
 		
 		int userNo = ((UserVo)session.getAttribute("authUser")).getNo();
 		
@@ -75,15 +75,24 @@ public class RboardController {
 		
 		return "redirect:/rboard/rlist";
 	}
-	//답글쓰기폼 --> 지금 있는 jsp는 그냥 리스트, 글쓰기폼으로 이름 바꾸고 답글용 글쓰기폼 새로 만들기, 이름 바꾼 거 확인하기
-	@RequestMapping(value="/rlist", method= {RequestMethod.GET, RequestMethod.POST})
-	public String rWriteForm() {
-		System.out.println("/rboard/rWriteForm");
+	
+	//답글쓰기폼 
+	@RequestMapping(value="reWriteForm", method= {RequestMethod.GET, RequestMethod.POST})
+	public String reWriteForm() {
+		System.out.println("/rboard/reWriteForm");
 		
+		//추후 로그인 여부 확인 추가
 		
-		
-		return "board/rWriteForm";
+		return "rboard/reWriteForm";
 	}
 	
 	//답글쓰기
+	@RequestMapping(value="reWrite", method= {RequestMethod.GET, RequestMethod.POST})
+	public String reWrite(@ModelAttribute BoardVo bVo) {
+		System.out.println("/rboard/reWrite");
+		
+		rboardService.reWrite(bVo);
+		
+		return "redirect:/rboard/rlist";
+	}
 }

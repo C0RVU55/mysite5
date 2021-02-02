@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -68,7 +66,7 @@
 							<c:forEach items="${bList }" var="vo">
 								<tr>
 									<td>${vo.no }</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath }/board/read?no=${vo.no}">${vo.title }</a></td>
+									<td class="text-left"><a href="${pageContext.request.contextPath }/rboard/rRead?no=${vo.no}">${vo.title }</a></td>
 									<td>${vo.name }</td>
 									<td>${vo.hit }</td>
 									<td>${vo.regDate }</td>
@@ -102,7 +100,7 @@
 						<div class="clear"></div>
 					</div>
 					<c:if test="${sessionScope.authUser != null }">
-						<a id="btn_write" href="${pageContext.request.contextPath }/board/wform">글쓰기</a>
+						<a id="btn_write" href="${pageContext.request.contextPath }/rboard/rwform">글쓰기</a>
 					</c:if>
 				</div>
 				<!-- //list -->

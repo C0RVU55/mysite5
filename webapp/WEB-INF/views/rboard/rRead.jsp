@@ -28,7 +28,6 @@
 		</div>
 		<!-- //aside -->
 
-
 		<div id="content">
 
 			<div id="content-head">
@@ -45,26 +44,52 @@
 			<!-- //content-head -->
 
 			<div id="board">
-				<div id="writeForm">
-					<form action="${pageContext.request.contextPath }/rboard/rWrite" method="get">
+				<div id="read">
+					<form action="#" method="get">
+						<!-- 작성자 -->
+						<div class="form-group">
+							<span class="form-text">작성자</span>
+							<span class="form-value">${bVo.name }</span>
+						</div>
+						
+						<!-- 조회수 -->
+						<div class="form-group">
+							<span class="form-text">조회수</span>
+							<span class="form-value">${bVo.hit }</span>
+						</div>
+						
+						<!-- 작성일 -->
+						<div class="form-group">
+							<span class="form-text">작성일</span>
+							<span class="form-value">${bVo.regDate }</span>
+						</div>
+						
 						<!-- 제목 -->
 						<div class="form-group">
-							<label class="form-text" for="txt-title">제목</label>
-							<input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
+							<span class="form-text">제 목</span>
+							<span class="form-value">${bVo.title }</span>
 						</div>
 					
 						<!-- 내용 -->
-						<div class="form-group">
-							<textarea id="txt-content" name="content"></textarea>
+						<div id="txt-content">
+							<span class="form-value" >
+								${bVo.content }
+							</span>
 						</div>
 						
-						<a id="btn_cancel" href="${pageContext.request.contextPath }/rboard/rlist">취소</a>
-						<button id="btn_add" type="submit" >등록</button>
-
+						<a id="btn_modify" href="${pageContext.request.contextPath }/rboard/reWriteForm?groupNo=${bVo.groupNo}
+							&orderNo=${bVo.orderNo}&depth=${bVo.depth}">답글쓰기</a>
+							
+						<c:if test="${bVo.userNo == sessionScope.authUser.no }">
+							<a id="btn_modify" href="${pageContext.request.contextPath }/rboard/mform?no=${bVo.no}">수정</a>
+						</c:if>
+						
+						<a id="btn_modify" href="${pageContext.request.contextPath }/rboard/rList">목록</a>
+						
 					</form>
 	                <!-- //form -->
 				</div>
-				<!-- //writeForm -->
+				<!-- //read -->
 			</div>
 			<!-- //board -->
 		</div>

@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="board">
+<mapper namespace="rboard">
 
 	<!-- 리스트 -->
 	<select id="selectList" resultType="BoardVo"> 
@@ -17,6 +17,7 @@
 			        order_no,
 			        depth
 			FROM rboard
+			order by no desc, order_no asc
 		]]>
 	</select>
 	
@@ -29,8 +30,8 @@
 			        content,
 			        hit,
 			        TO_CHAR(reg_date, 'YYYY-MM-DD') regDate,
-			        group_no,
-			        order_no,
+			        group_no groupNo,
+			        order_no orderNo,
 			        depth
 			FROM rboard
 			where no=#{no}
@@ -61,10 +62,40 @@
 			       1, 0)
 		]]>
 	</insert>
+	
+	<!-- 답글 -->
+	<insert id="reInsert" parameterType="BoardVo">
+		<![CDATA[ 
+			insert into rboard
+			values(seq_rboard_no.nextval, 
+			       1, 
+			       #{title}, 
+			       #{content}, 
+			       0, 
+			       sysdate, 
+			       #{groupNo}, 
+			       1, 0)
+		]]>
+	</insert>
 
+	<!-- 정렬 -->
+	<update id="rawUpdate" parameterType="BoardVo">
+	<![CDATA[ 
+		update rboard 
+		set order_no = order_no + 1 
+		where group_no = #{groupNo}
+		and order_no > #{orderNo}
+	]]>
+	</update>
 
-
-
+	<!-- 들여쓰기 -->
+	<update id="depthUpdate" parameterType="BoardVo">
+	<![CDATA[ 
+		update rboard 
+		set depth = depth + 1 
+		where group_no = #{groupNo}
+	]]>
+	</update>
 
 
 

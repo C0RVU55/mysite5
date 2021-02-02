@@ -15,7 +15,7 @@ create table rboard(
     content VARCHAR2(4000),
     hit number default 0,
     reg_date date,
-    group_no number,
+    group_no number DEFAULT 1,
     order_no number DEFAULT 1,
     depth number DEFAULT 0,
     PRIMARY KEY (no),
@@ -38,12 +38,19 @@ SELECT  no,
         group_no,
         order_no,
         depth
-FROM rboard;
+FROM rboard
+order by group_no desc, order_no asc;
 
 --입력
 --(no, user_no, title, content, hit, reg_date, group_no, order_no, depth)
 insert into rboard
-values(seq_rboard_no.nextval, 1, '제목테스트', 'xxx', 0, sysdate, seq_rboard_no.nextval, 1, 0);
+values(seq_rboard_no.nextval, 1, '제목1', 'xxx', 0, sysdate, 1, 1, 0);
+
+insert into rboard
+values(seq_rboard_no.nextval, 1, '제목2', 'ccc', 0, sysdate, seq_rboard_no.nextval, 1, 0);
+
+insert into rboard
+values(seq_rboard_no.nextval, 1, '제목3', 'vvv', 0, sysdate, seq_rboard_no.nextval, 1, 0);
 
 --글정보
 SELECT  no,
@@ -63,3 +70,13 @@ update rboard
 set hit = hit + 1
 where no =1;
 
+--순서번호 갱신
+update rboard 
+set order_no = order_no + 1 
+where group_no = 3 
+and order_no >= 1;
+
+--들여쓰기 갱신
+update rboard 
+set depth = depth + 1 
+where group_no = 3;
