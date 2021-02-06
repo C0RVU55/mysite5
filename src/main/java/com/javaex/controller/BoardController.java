@@ -25,8 +25,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	/*
-	1.본인글 조회수 안 올라가게 하기
-	2.검색 추가하기
+	본인글 조회수 안 올라가게 하기 (세션을 controller에서 if문으로 받아서 조건에 따라 각 service로 보내는 게 나을듯)
 	*/
 	/*
 	- 다이어그램에서 조회수 올리는 걸 먼저 써야 됨. 이 순서도 의미가 있음
@@ -39,12 +38,12 @@ public class BoardController {
 	- 검색은 파라미터 request=false 써보기
 	*/
 	
-	//리스트
+	//리스트 (검색 추가 --> search 파라미터가 있을 수도 있고 없을 수도 있음)
 	@RequestMapping(value="/list", method= {RequestMethod.GET, RequestMethod.POST})
-	public String list(Model model) {
-		System.out.println("/board/list");
+	public String list(Model model, @RequestParam(value="search", required=false) String str) {
+		System.out.println("/board/list --> "+str);
 		
-		List<BoardVo> bList = boardService.getList();
+		List<BoardVo> bList = boardService.getList(str);
 		//System.out.println("B ctrl list "+bList);
 		
 		model.addAttribute("bList", bList);

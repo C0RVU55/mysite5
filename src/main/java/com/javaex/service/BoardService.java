@@ -19,12 +19,12 @@ public class BoardService {
 	private BoardDao bDao;
 	
 	//리스트
-	public List<BoardVo> getList() {
+	public List<BoardVo> getList(String str) {
 		System.out.println("B service getList()");
 		
 		//System.out.println("B service getList() "+bDao.selectListList());
 		
-		return bDao.selectList();
+		return bDao.selectList(str);
 	}
 	
 	//읽기 + 조회수 증가

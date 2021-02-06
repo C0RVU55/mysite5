@@ -20,12 +20,12 @@ public class BoardDao {
 	// 메소드 일반
 	
 	//리스트
-	public List<BoardVo> selectList() {
+	public List<BoardVo> selectList(String str) {
 		System.out.println("bDao selectList()");
 		
 		//System.out.println(sqlSession.selectList("board.selectList"));
 		
-		return sqlSession.selectList("board.selectList");
+		return sqlSession.selectList("board.selectList", str);
 	}
 	
 	//읽기

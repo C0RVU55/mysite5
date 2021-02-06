@@ -6,19 +6,41 @@
 	
 	<!-- alias 적용 -->
 	
-	<!-- 리스트 -->
-	<select id="selectList" resultType="BoardVo"> 
+	<!-- 리스트(+검색) -->
+	<!-- 
+		검색할 때 조건문 안의 변수명을 str로 하면 There is no getter for property named 'str' in 'class java.lang.String' 라면서
+		strorg.apache.ibatis.reflection.ReflectionException 오류가 뜨는데 이게 parameterType="String"라 파라미터를 하나 받을 때 
+		if test 문법으로 null처리할 때 나는 거라고 함.
+		그래서 파라미터명을 다른 걸로 바꿔주면 해결됨. 파라미터명이랑 #{}안의 이름은 달라도 정상 작동함.
+		또 쿼리문 안에 if test나 choose를 써도 오라클 문법을 지켜야 됨
+	-->
+	<select id="selectList" parameterType="String" resultType="BoardVo"> 
 		<![CDATA[ 
 			SELECT  b.no,
 			        title,
 			        hit,
+			        content,
 			        to_char(reg_date, 'YYYY-MM-DD') regDate,
 			        user_no userNo,
 			        name
-			FROM board b, users u
-			where b.user_no = u.no
-			order by b.no desc
+			FROM board b left join users u
+			on b.user_no = u.no
 		]]>
+		<choose>
+			<when test="value != null">
+				<![CDATA[ 
+					where title like '%'||#{value}||'%'
+					or content like '%'||#{value}||'%'
+					or name like '%'||#{value}||'%'
+					order by b.no desc
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[ 
+					order by b.no desc
+				]]>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<!-- 글 읽기 -->
