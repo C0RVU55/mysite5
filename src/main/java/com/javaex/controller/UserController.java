@@ -135,7 +135,7 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-	//회원가입 - 아이디 체크
+	//회원가입 - 아이디 체크 (UserService에 자세한 설명)
 	@ResponseBody
 	@RequestMapping(value="/idcheck", method= {RequestMethod.GET, RequestMethod.POST})
 	public String idcheck(@RequestParam("id") String id) { //@ModelAttribute
@@ -144,12 +144,11 @@ public class UserController {
 		
 		String result = userService.idcheck(id);
 		
-		//여기에서 입력받은 값을 파라미터로 넘길 수도 있는데 항목이 많으면 입력, 수정이 다 번거로움.
-		
+		//아래처럼 여기에서 입력받은 값(회원정보)을 파라미터로 넘길 수도 있는데 항목이 많으면 입력, 수정이 다 번거로워서 안 함
 		//return "redirect:/user/joinForm?result="+result;
 		
-		//리다이렉트나 포워드가 아니라(이거는 jsp파일 찾는 거니까) 데이터만 보내기 
-		//--> ResponseBody 추가하면 return을 기존방식이 아니라 응답 body영역에 데이터만 보냄
+		//리다이렉트나 포워드가 아니라(이거는 jsp파일 찾는 거) 데이터만 보내고 싶으면
+		//--> @ResponseBody 추가 --> return이 기존방식이 아니라 response의 body영역에 데이터만 보내게 됨
 		return result;
 	}
 }

@@ -125,6 +125,7 @@
 <script type="text/javascript">
 
 	//괄호 주의
+	//*****회원가입 아이디 중복체크*****
 	$("#btnCheck").on("click", function(){
 		
 		//var uid = $("[name='id']").val();
@@ -135,21 +136,24 @@
 		//console.log(uid+", "+pw);
 		
 		//ajax(서버와 통신하는 기술)데이터만 받기. 아래는 자바스크립트 객체.
-		//get이든 post든 id를 받아도 주소창에 안 보이는 게 기본임.
+		//get이든 post든 파라미터값을 받아도 주소창에 안 보이는 게 기본임.
+		
 		$.ajax({
 			
-			//파라미터에 값을 다 쓰는 게 아니라 위에서 받아서 변수만 넣음. 근데 파라미터가 많으면 다 못 쓰니까 data에 묶어서 넣음
+			//파라미터에 값을 다 쓰는 게 아니라 위에서 받아서 변수만 넣음. 근데 파라미터가 많으면 다 못 쓰니까 data에 키:값 형태로 묶어서 넣음
 			url : "${pageContext.request.contextPath }/user/idcheck",		
 			type : "post",
 			//contentType : "application/json",
 			data : {id: uid},
 
 			dataType : "text",
-			success : function(result){ //컨트롤러에서 보낸 값을 콘솔에 출력해서 확인
+			success : function(result){ //컨트롤러에서 보낸 result값을 콘솔에 출력해서 확인
 				/*성공시 처리해야될 코드 작성*/
+				
 				if(result == "pass"){
 					console.log("사용할 수 있는 아이디");
 					$("#msg").html("사용할 수 있는 아이디입니다"); //css적용 가능
+					
 				} else {
 					console.log("사용할 수 없는 아이디");
 					$("#msg").html("사용할 수 없는 아이디입니다");
@@ -161,29 +165,30 @@
 			}
 		});
 
-		
 	});
+
 	
-	//약관동의 안 누르면 안 넘어가게 하기
+	//*****비밀번호 조건 및 약관동의 체크*****
 	//폼을 submit할 때 --> submit되기 전에 들렀다 감
 	$("#joinForm").on("submit", function(){
 		
-		//패스워드 체크 8자 이상이면 통과 
-		//원래 약관동의 아래 있었는데 테스트순서 밀려서 비번확인 코드를 위로 옮김
+		//값 준비하는 건 위에 같이 모아두기
+		//비번 체크 준비
 		var pw = $("#input-pass").val();
-		console.log(pw.length)
+		console.log(pw.length);
 		
-		//비번 체크
+		//약관동의 체크 준비
+		var check = $("#chk-agree").is(":checked"); 
+		console.log(check);
+		//$("input:checkbox[id='ID']").is(":checked") == true : false 체크박스 검색하면 나오는 거
+		
+		/////
+		
+		//비번 체크 (원래 이 코드가 약관동의 체크 아래 있었는데 테스트 순서 안 맞아서 위치 옮김)
 		if(pw.length < 8){
 			alert("비밀번호는 8자 이상이어야 합니다.");
 			return false;
 		};
-		
-		
-		//$("input:checkbox[id='ID']").is(":checked") == true : false 체크박스 검색하면 나오는 거
-		
-		var check = $("#chk-agree").is(":checked"); //값 준비하는 건 위에 같이 모아두기
-		console.log(check);
 		
 		//약관동의 체크(check가 flase면 = true의 반대면)
 		if(!check){
@@ -193,18 +198,21 @@
 		
 		/*
 		//약관동의
-		if(check==true){ //동의하기 checkbox 체크됨 --> submit
+		if(check==true){ 
+			//동의하기 checkbox 체크됨 --> submit
 			return true;
 		
-		} else { //체크 안 됨 --> alert창 띄우고 "약관에 동의해주세요" 출력 --> submit 안 됨
+		} else { 
+			//체크 안 됨 --> alert창 띄우고 "약관에 동의해주세요" 출력 --> submit 안 됨
 			alert("약관에 동의해 주세요.");
 			return false; 
 		}
 		*/
 
-		//return false; 위에 거 체크하고 멈춤. 실제로 submit 안 됨.
+		//return false; 테스트 --> 위에 거 체크하고 멈춤. 실제로 submit 안 됨.
 		
-		//위에 거 다 통과했으면
+		
+		//위에 거 순서대로 다 통과했으면
 		return true;
 	});
 	
