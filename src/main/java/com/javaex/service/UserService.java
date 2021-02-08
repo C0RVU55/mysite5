@@ -43,4 +43,27 @@ public class UserService {
 		
 		return userDao.modify(uVo);
 	}
+	
+	//회원가입 - 아이디체크
+	public String idcheck(String id) {
+		System.out.println("userService idcheck() --> "+id);
+		
+		//System.out.println(userDao.selectOne(id));
+		
+		UserVo userVo = userDao.selectOne(id);
+		
+		String result="";
+		
+		//이렇게 할 경우 모든 정보 입력 후 중복체크할 경우 입력한 정보가 다 날아감. 재요청하는 거라서 
+		//--> ajax이용 : 자바스크립트로 서버에서 데이터를 가져와 페이지 전체 갱신없이 특정부분만 변경함. 주로 json으로 서버와 데이터 주고받음.
+		if(userVo == null) { //만약에 위나 dao에서 toString()을 찍으면 성공하는 경우만 되기 때문에 null일 때 오류남
+			//사용할 수 있는 id
+			result="pass";
+		}else {
+			//사용할 수 없는 id
+			result="fail";
+		}
+		
+		return result;	
+	}
 }

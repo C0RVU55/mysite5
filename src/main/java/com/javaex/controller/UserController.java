@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
@@ -132,5 +133,23 @@ public class UserController {
 		vo.setName(name);
 
 		return "redirect:/";
+	}
+	
+	//회원가입 - 아이디 체크
+	@ResponseBody
+	@RequestMapping(value="/idcheck", method= {RequestMethod.GET, RequestMethod.POST})
+	public String idcheck(@RequestParam("id") String id) { //@ModelAttribute
+		System.out.println("/user/idcheck");
+		System.out.println("checkid= "+id); //패스워드는 테스트용
+		
+		String result = userService.idcheck(id);
+		
+		//여기에서 입력받은 값을 파라미터로 넘길 수도 있는데 항목이 많으면 입력, 수정이 다 번거로움.
+		
+		//return "redirect:/user/joinForm?result="+result;
+		
+		//리다이렉트나 포워드가 아니라(이거는 jsp파일 찾는 거니까) 데이터만 보내기 
+		//--> ResponseBody 추가하면 return을 기존방식이 아니라 응답 body영역에 데이터만 보냄
+		return result;
 	}
 }

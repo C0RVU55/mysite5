@@ -49,5 +49,16 @@
 			where no = #{no}
 		]]>
 	</update>
-
+	
+	<!-- 회원가입 아이디 체크 -->
+	<select id="selectById" parameterType="String" resultType="UserVo">
+		<![CDATA[
+			SELECT  no,
+					id,
+			        name,
+			        gender
+			FROM users
+			where id = #{id}
+		]]>
+	</select>
 </mapper>
