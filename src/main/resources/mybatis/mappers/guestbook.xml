@@ -9,7 +9,7 @@
 			SELECT  no,
 			        name,
 			        content,
-			        to_char(reg_date, 'YYYY-MM-DD HH24:MI:SS') reg_date
+			        to_char(reg_date, 'YYYY-MM-DD HH24:MI:SS') regDate
 			FROM guestbook
 			order by no desc
 		]]>
@@ -35,5 +35,42 @@
 			and password = #{password}
 		]]>
 	</delete>
+	
+	<!-- ajax 글저장 -->
+	<!-- 기존의 등록과 다르게 no을 알아야 돼서 no을 먼저 받고 등록함 -->
+	<!-- 
+		selectKey : keyProperty를 파라미터에 setter로 저장함
+		keyProperty : 저장할 변수
+		resultType="int" : 위에 넣을 데이터 자료형
+		order="BEFORE" : 
+		시퀀스(키값)은 아래처럼 불러오면 됨
+	 -->
+	<insert id="insertSelectKey" parameterType="GuestVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select seq_no.nextval
+			from dual
+		</selectKey>
+		<![CDATA[ 
+			insert into guestbook
+			VALUES(#{no}, 
+			       #{name}, 
+			       #{password}, 
+			       #{content}, 
+			       sysdate)
+		]]>
+	</insert>
+	
+	<!-- ajax 글 하나 가져오기 -->
+	<select id="select" parameterType="int" resultType="GuestVo">
+		<![CDATA[ 
+			SELECT  no,
+			        name,
+			        content,
+			        to_char(reg_date, 'YYYY-MM-DD HH24:MI:SS') regDate
+			FROM guestbook
+			where no = #{no}
+		]]>
+	</select>
+	
 	
 </mapper>

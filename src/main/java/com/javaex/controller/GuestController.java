@@ -70,4 +70,12 @@ public class GuestController {
 		return "redirect:/guest/list";
 	}
 	
+	//ajax방명록
+	@RequestMapping(value="/ajaxList", method= {RequestMethod.GET, RequestMethod.POST})
+	public String ajaxList() {
+		System.out.println("/guest/ajaxList");
+		
+		return "guestbook/ajaxList";
+	}
+		
 }

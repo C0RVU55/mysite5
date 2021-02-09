@@ -45,5 +45,23 @@ public class GuestDao {
 		
 		return count;
 	}
+	
+	//ajax 등록 
+	public void insertSeletKey(GuestVo gVo) {
+		System.out.println("G dao insertSelectKey "+gVo);
+		
+		System.out.println("dao : xml 실행전--> "+gVo);
+		sqlSession.insert("guestbook.insertSelectKey", gVo);
+		System.out.println("dao : xml 실행후--> "+gVo);
+		
+		//return gVo.getNo(); 어차피 같은 GuestVo라 위 쿼리문 실행하면 no를 갖고 있는 상태가 됨. 굳이 no를 넘길 필요 없음.
+	}
+	
+	//ajax 글 하나 가져오기
+	public GuestVo select(int no) {
+		System.out.println("G dao select --> "+no);
+		
+		return sqlSession.selectOne("guestbook.select", no);
+	}
 
 }
