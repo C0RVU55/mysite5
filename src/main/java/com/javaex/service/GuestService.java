@@ -22,7 +22,7 @@ public class GuestService {
 		//List<GuestVo> gList = gDao.getList();
 		//System.out.println("--> "+gList);
 		
-		return gDao.getList();
+		return gDao.selectList();
 	}
 	
 	//등록
@@ -32,12 +32,12 @@ public class GuestService {
 		//int count = gDao.add(gVo);
 		//System.out.println(count);
 		
-		return gDao.add(gVo);
+		return gDao.insert(gVo);
 	}
 	
 	//삭제
-	public int delete(GuestVo gVo) {
-		System.out.println("G service delete()");
+	public int remove(GuestVo gVo) {
+		System.out.println("G service remove()");
 		
 		int count = gDao.delete(gVo);
 		
@@ -48,12 +48,15 @@ public class GuestService {
 	public GuestVo writeResultVo(GuestVo gVo) {
 		//글저장 + 글번호 가져오기
 		System.out.println("service : dao.insertSelectKey() 실행 전 -->"+gVo);
+		
 		gDao.insertSeletKey(gVo);
+		
 		System.out.println("service : dao.insertSelectKey() 실행 후 -->"+gVo);
+		
 		int no = gVo.getNo(); //no가 들어온 걸 확인 가능
 		
 		//방금 저장한 글 조회
-		//가장 최근 글 조회 --> 내가 저장한 글이 올지 알 수 없으니까 입력한 글의 번호로 글 가져옴
+		//가장 최근 글 조회할 경우 내가 저장한 글이 올지 알 수 없으니까 입력한 글의 번호로 글 가져옴
 		GuestVo vo = gDao.select(no);
 		System.out.println("G service writeResultVo()--> "+vo);
 		

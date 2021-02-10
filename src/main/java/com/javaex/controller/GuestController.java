@@ -23,7 +23,7 @@ public class GuestController {
 	
 	//리스트
 	@RequestMapping(value="/list", method= {RequestMethod.GET, RequestMethod.POST})
-	public String list(Model model) {
+	public String getList(Model model) {
 		System.out.println("/guest/list");
 		
 		List<GuestVo> gList = guestService.getList();
@@ -56,11 +56,11 @@ public class GuestController {
 	}
 	
 	//삭제
-	@RequestMapping(value="/delete", method= {RequestMethod.GET, RequestMethod.POST})
-	public String delete(@ModelAttribute GuestVo gVo) {
-		System.out.println("/guest/delete");
+	@RequestMapping(value="/remove", method= {RequestMethod.GET, RequestMethod.POST})
+	public String remove(@ModelAttribute GuestVo gVo) {
+		System.out.println("/guest/remove");
 		
-		int count = guestService.delete(gVo);
+		int count = guestService.remove(gVo);
 		
 		//비밀번호 틀렸을 경우 문구 출력
 		if(count == 0) {

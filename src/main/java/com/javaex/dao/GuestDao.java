@@ -20,7 +20,7 @@ public class GuestDao {
 	// 메소드 일반
 
 	// 내용 출력(리스트)
-	public List<GuestVo> getList() {
+	public List<GuestVo> selectList() {
 		
 		//List<GuestVo> gList = sqlSession.selectList("guestbook.selectList");
 		//System.out.println("G dao list --> "+gList.toString());
@@ -29,8 +29,8 @@ public class GuestDao {
 	}
 	
 	// 내용 등록
-	public int add(GuestVo gVo) {
-		System.out.println("G dao add "+gVo);
+	public int insert(GuestVo gVo) {
+		System.out.println("G dao insert "+gVo);
 		
 		//int count = sqlSession.insert("guestbook.insert", gVo);
 		
