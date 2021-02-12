@@ -53,15 +53,21 @@ public class BoardController {
 	
 	//읽기
 	@RequestMapping(value="/read", method= {RequestMethod.GET, RequestMethod.POST})
-	public String read(@RequestParam("no") int no, Model model) {
+	public String read(@RequestParam("no") int no, Model model, HttpSession session) {
 		System.out.println("/board/read");
 		
 		//System.out.println("/board/read "+boardService.read(no));
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		
+		//컨트롤러에서는 복잡한 로직을 안 하는 게 낫지만 세션은 웹브라우저 기술이기 때문에 컨트롤러 선에서 끝냄. 
+		if(authUser != null && authUser.getNo() == boardService.readOwn(no).getUserNo()) {
+			BoardVo vo = boardService.readOwn(no);
+			model.addAttribute("bVo", vo);
+		} else {
+			BoardVo bVo = boardService.read(no);
+			model.addAttribute("bVo", bVo);
+		}
 				
-		BoardVo bVo = boardService.read(no);
-		
-		model.addAttribute("bVo", bVo);
-		
 		return "board/read";
 	}
 	

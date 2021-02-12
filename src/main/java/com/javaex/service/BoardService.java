@@ -35,7 +35,7 @@ public class BoardService {
 		
 		//UserVo authUser = (UserVo)object;
 		
-		/* 아직 못함
+		/* 컨트롤러에서 처리함
 		//본인글인지 아닌지 확인 --> 조회수 증가시킨 후 게시글 정보 가져오기
 		if(authUser != null || authUser.getNo() != bDao.selectPosting(no).getUserNo()) {
 			bDao.hitUpdate(no);
@@ -47,6 +47,12 @@ public class BoardService {
 		return bDao.selectPosting(no);
 	}
 
+	//읽기만 하기 (본인글은 조회수 증가 안 함)
+	public BoardVo readOwn(int no) {
+		System.out.println("B service readOwn() --> "+no);
+		
+		return bDao.selectPosting(no);
+	}
 	
 	//쓰기
 	public int write(BoardVo bVo) {

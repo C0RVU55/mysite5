@@ -30,7 +30,7 @@ public class BoardDao {
 	
 	//읽기
 	public BoardVo selectPosting(int no) {
-		System.out.println("bDao read()");
+		System.out.println("bDao selectPosting()");
 		
 		//System.out.println("bDao read()"+sqlSession.selectOne("board.selectOne", no));
 		
