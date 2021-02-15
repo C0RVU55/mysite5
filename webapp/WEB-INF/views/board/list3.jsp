@@ -45,9 +45,9 @@
 
 			<div id="board">
 				<div id="list">
-					<form action="${pageContext.request.contextPath }/board/list" method="get">
+					<form action="${pageContext.request.contextPath }/board/list3" method="get">
 						<div class="form-group text-right">
-							<input type="text" name="search">
+							<input type="text" name="keyword">
 							<button type="submit" id="btn_search">검색</button>
 						</div>
 					</form>
@@ -63,7 +63,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${bList }" var="vo">
+							<c:forEach items="${pMap.bList}" var="vo">
 								<tr>
 									<td>${vo.no }</td>
 									<td class="text-left"><a href="${pageContext.request.contextPath }/board/read?no=${vo.no}">${vo.title }</a></td>
@@ -80,20 +80,20 @@
 						</tbody>
 					</table>
 		
-					<div id="paging">
+					<div id="paging"> <!-- 페이징 잘 보고 이해하기 -->
 						<ul>
-							<li><a href="">◀</a></li>
-							<li><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">4</a></li>
-							<li class="active"><a href="">5</a></li>
-							<li><a href="">6</a></li>
-							<li><a href="">7</a></li>
-							<li><a href="">8</a></li>
-							<li><a href="">9</a></li>
-							<li><a href="">10</a></li>
-							<li><a href="">▶</a></li>
+							<c:if test="${pMap.prev == true}">
+								<li><a href="${pageContext.request.contextPath }/board/list3?crtPage=${pMap.startPageBtnNo-1}&keyword=${param.keyword}">◀</a></li>
+							</c:if>
+							
+							<c:forEach begin="${pMap.startPageBtnNo }" end="${pMap.endPageBtnNo }" step="1" var="page"> <!-- step은 1번 돌 때 증가하는 정도 -->
+								<li><a href="${pageContext.request.contextPath }/board/list3?crtPage=${page }&keyword=${param.keyword}">${page }</a></li>
+								<!-- 검색했을 때 다른 페이지 넘기면 검색값이 사라지는 걸 방지하기 위해 키워드도 추가. -->
+							</c:forEach>
+							
+							<c:if test="${pMap.next == true}">
+								<li><a href="${pageContext.request.contextPath }/board/list3?crtPage=${pMap.endPageBtnNo+1}&keyword=${param.keyword}">▶</a></li>
+							</c:if>
 						</ul>
 						
 						

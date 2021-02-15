@@ -1,6 +1,7 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,6 +50,32 @@ public class BoardController {
 		model.addAttribute("bList", bList);
 		
 		return "board/list";
+	}
+	
+	//리스트2 (+검색) --> required=false 이 파라미터값이 있을 수도 있고 없을 수도 있을 때 사용 (값이 없을 때 지정할 defaultValue도 넣음)
+	@RequestMapping(value="/list2", method= {RequestMethod.GET, RequestMethod.POST})
+	public String list2(Model model, @RequestParam(value="keyword", required=false, defaultValue="") String keyword) {
+		System.out.println("/board/list2 --> "+keyword);
+		
+		List<BoardVo> bList = boardService.getList2(keyword);
+		
+		model.addAttribute("bList", bList);
+		
+		return "board/list2";
+	}
+	
+	//리스트3 (+검색+페이징)
+	@RequestMapping(value="/list3", method= {RequestMethod.GET, RequestMethod.POST})
+	public String list3(Model model, @RequestParam(value="keyword", required=false, defaultValue="") String keyword,
+						@RequestParam(value="crtPage", required=false, defaultValue="1") int crtPage) {
+		System.out.println("/board/list3 --> "+keyword+" / "+crtPage);
+		
+		Map<String, Object> pageMap = boardService.getList3(keyword, crtPage);	
+		System.out.println(pageMap);
+
+		model.addAttribute("pMap", pageMap);
+		
+		return "board/list3";
 	}
 	
 	//읽기

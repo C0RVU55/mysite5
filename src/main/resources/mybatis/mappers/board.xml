@@ -43,6 +43,120 @@
 		</choose>
 	</select>
 	
+	<!-- 리스트2 (+검색) -->
+	<!-- ||가 문자열 조합 +라고 볼 수 있음 -->
+	<select id="selectList2" parameterType="String" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  b.no,
+			        title,
+			        hit,
+			        content,
+			        to_char(reg_date, 'YYYY-MM-DD') regDate,
+			        user_no userNo,
+			        name
+			FROM board b left join users u
+			on b.user_no = u.no
+		]]>
+
+		<if test="value != null and value != ''">
+			<![CDATA[ 
+				where title like '%'||#{keyword}||'%'
+				or content like '%'||#{keyword}||'%'
+				or name like '%'||#{keyword}||'%'
+			]]>
+		</if>
+
+		<![CDATA[ 
+			order by b.no desc
+		]]>
+	</select>
+	
+	<!--  리스트3 (+검색), ||가 문자열 조합 +라고 볼 수 있음
+	<select id="selectList3" parameterType="String" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  b.no,
+			        title,
+			        hit,
+			        content,
+			        to_char(reg_date, 'YYYY-MM-DD') regDate,
+			        user_no userNo,
+			        name
+			FROM board b left join users u
+			on b.user_no = u.no
+		]]>
+
+		<if test="value != null and value != ''">
+			<![CDATA[ 
+				where title like '%'||#{keyword}||'%'
+				or content like '%'||#{keyword}||'%'
+				or name like '%'||#{keyword}||'%'
+			]]>
+		</if>
+
+		<![CDATA[ 
+			order by b.no desc
+		]]>
+	</select>
+	-->
+	
+	<!-- 리스트3(+검색+페이징) / #{}안의 값이 map의 키와 같아야 함. -->
+	<!-- 파라미터타입 소문자로 쓰면 검색 안 먹음 -->
+	<select id="selectList3" parameterType="Map" resultType="BoardVo">
+		<![CDATA[ 
+			SELECT  r.rnum,
+			        r.no,
+			        r.title,
+			        r.hit,
+			        r.regDate,
+			        r.userNo,
+			        r.userName
+			FROM (SELECT  rownum rnum,
+			                o.no,
+			                o.title,
+			                o.hit,
+			                o.regDate,
+			                o.userNo,
+			                o.userName
+			        FROM (SELECT b.no,
+			                        title,
+			                        hit,
+			                        to_char(reg_date, 'YYYY-MM-DD') regDate,
+			                        user_no userNo,
+			                        name userName
+			                FROM board b left join users u
+			                on b.user_no = u.no
+        ]]>
+	        <if test="keyword != null and keyword != ''">
+				<![CDATA[ 
+					 where title like '%'||#{keyword}||'%'
+				     or content like '%'||#{keyword}||'%'
+				     or name like '%'||#{keyword}||'%'
+				]]>
+			</if>
+     		   <![CDATA[
+			               
+			                order by b.no desc) o ) r
+			where r.rnum >= #{startRnum}
+			and r.rnum <= #{endRnum}
+				]]>
+	</select>
+	
+	<!-- 전체글 수 가져오기 -->
+	<select id="selectTotalCnt" parameterType="string" resultType="int">
+		<![CDATA[ 
+			SELECT  count(*)
+			FROM board b, users u
+			where b.user_no = u.no
+			
+		]]>
+		
+		<if test="value != null and value != ''">
+			<![CDATA[ 
+				and title like '%'||#{keyword}||'%'
+			]]>
+		</if>
+	</select>
+	
 	<!-- 글 읽기 -->
 	<select id="selectPosting" parameterType="int" resultType="BoardVo">
 		<![CDATA[ 
