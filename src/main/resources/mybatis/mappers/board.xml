@@ -99,7 +99,7 @@
 	</select>
 	-->
 	
-	<!-- 리스트3(+검색+페이징) / #{}안의 값이 map의 키와 같아야 함. -->
+	<!-- 리스트3(+검색+페이징) / #{}안의 값이 map의 키와 같아야 함. 파라미터타입이 String이면 if문에 value라고 써야 되지만 이건 Map이라 키이름과 같아야 됨.-->
 	<!-- 파라미터타입 소문자로 쓰면 검색 안 먹음 -->
 	<select id="selectList3" parameterType="Map" resultType="BoardVo">
 		<![CDATA[ 

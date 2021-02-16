@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+
+<select id="selectList" parameterType="String" resultType="BoardVo"> 
+<![CDATA[ 
+]]>
+</select>
+
+	<!-- 등록 -->
+	<insert id="insert" parameterType="GalleryVo">
+		<![CDATA[
+			insert into gallery
+			values(seq_gallery_no.nextval, 
+					#{userNo}, 
+					#{content}, 
+					#{filePath}, 
+					#{orgName}, 
+					#{saveName}, 
+					#{fileSize}
+					)
+		]]>
+	</insert>
+
+
+
+</mapper>

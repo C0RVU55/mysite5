@@ -8,6 +8,7 @@
     	<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" />
     	<typeAlias alias="GuestVo" type="com.javaex.vo.GuestVo" />
     	<typeAlias alias="BoardVo" type="com.javaex.vo.BoardVo" />
+    	<typeAlias alias="GalleryVo" type="com.javaex.vo.GalleryVo" />
     </typeAliases>
 
     <mappers> <!-- 여기에 쿼리문xml 경로 추가-->
@@ -15,5 +16,6 @@
    		<mapper resource="mybatis/mappers/guestbook.xml" /> 
    		<mapper resource="mybatis/mappers/board.xml" /> 
    		<mapper resource="mybatis/mappers/rboard.xml" /> 
+   		<mapper resource="mybatis/mappers/gallery.xml" /> 
     </mappers>
 </configuration>
