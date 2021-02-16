@@ -57,8 +57,8 @@
 		<property name="defaultEncoding" value="utf-8" />
 
 	</bean>
-	
-	<!-- url과 resources 매핑 / 서버 하드에 저장한 데이터를 브라우저에 표시하기 위해 필요 -->
+
+	<!-- url매핑 -->
 	<mvc:resources mapping="/upload/**" location="file:C:/javaStudy/upload/" />
 
 

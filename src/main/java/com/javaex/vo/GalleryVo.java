@@ -4,6 +4,7 @@ public class GalleryVo {
 
 	private int no;
 	private int userNo;
+	private String userName;
 	private String content;
 	private String filePath;
 	private String orgName;
@@ -14,9 +15,10 @@ public class GalleryVo {
 
 	}
 	
-	public GalleryVo(int userNo, String content, String filePath, String orgName, String saveName,
+	public GalleryVo(int userNo, String userName, String content, String filePath, String orgName, String saveName,
 			long fileSize) {
 		this.userNo = userNo;
+		this.userName = userName;
 		this.content = content;
 		this.filePath = filePath;
 		this.orgName = orgName;
@@ -24,10 +26,11 @@ public class GalleryVo {
 		this.fileSize = fileSize;
 	}
 
-	public GalleryVo(int no, int userNo, String content, String filePath, String orgName, String saveName,
+	public GalleryVo(int no, int userNo, String userName, String content, String filePath, String orgName, String saveName,
 			long fileSize) {
 		this.no = no;
 		this.userNo = userNo;
+		this.userName = userName;
 		this.content = content;
 		this.filePath = filePath;
 		this.orgName = orgName;
@@ -49,6 +52,14 @@ public class GalleryVo {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getContent() {
@@ -93,8 +104,9 @@ public class GalleryVo {
 
 	@Override
 	public String toString() {
-		return "GalleryVo [no=" + no + ", userNo=" + userNo + ", content=" + content + ", filePath=" + filePath
-				+ ", orgName=" + orgName + ", saveName=" + saveName + ", fileSize=" + fileSize + "]";
+		return "GalleryVo [no=" + no + ", userNo=" + userNo + ", userName=" + userName + ", content=" + content
+				+ ", filePath=" + filePath + ", orgName=" + orgName + ", saveName=" + saveName + ", fileSize="
+				+ fileSize + "]";
 	}
 
 }

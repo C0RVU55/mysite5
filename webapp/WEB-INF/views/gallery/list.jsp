@@ -56,12 +56,14 @@
 					<ul id="viewArea">
 						
 						<!-- 이미지반복영역 -->
+						<c:forEach items="${galList }" var="vo">
 							<li>
 								<div class="view" >
-									<img class="imgItem" src="">
-									<div class="imgWriter">작성자: <strong>유재석</strong></div>
+									<img class="imgItem" src="${pageContext.request.contextPath }/upload/${vo.saveName}">
+									<div class="imgWriter">작성자: <strong>${vo.userName}</strong></div> <!-- 이름 null 상태 수정하기 -->
 								</div>
 							</li>
+						</c:forEach>
 						<!-- 이미지반복영역 -->
 						
 						
@@ -91,7 +93,9 @@
 					<h4 class="modal-title">이미지등록</h4>
 				</div>
 				
-				<form action="${pageContext.request.contextPath }/gallery/upload" method="get" enctype="multipart/form-data" > <!-- enctype 주의 -->
+				<!-- get으로 하면 뭔짓을 해도 MultipartException 오류 뜨는데 post로 하면 바로 됨. -->
+				<!-- enctype 주의 -->
+				<form method="post" action="${pageContext.request.contextPath }/gallery/upload" enctype="multipart/form-data" > 
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="form-text">글작성</label>
@@ -153,7 +157,7 @@
 
 	//이미지 등록 모달창
 	$("#btnImgUpload").on("click", function(){
-		console.log("이미지저장 모달창 호출")
+		console.log("이미지저장 모달창 호출");
 		
 		$("#addModal").modal();
 		

@@ -4,10 +4,19 @@
 
 <mapper namespace="gallery">
 
-<select id="selectList" parameterType="String" resultType="BoardVo"> 
-<![CDATA[ 
-]]>
-</select>
+	<!-- 전체리스트 -->
+	<select id="selectList" resultType="GalleryVo"> 
+		<![CDATA[ 
+			SELECT  no,
+			        user_no userNo,
+			        content,
+			        filePath,
+			        orgName,
+			        saveName,
+			        fileSize
+			FROM gallery
+		]]>
+	</select>
 
 	<!-- 등록 -->
 	<insert id="insert" parameterType="GalleryVo">

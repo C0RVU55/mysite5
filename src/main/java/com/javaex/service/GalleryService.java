@@ -3,6 +3,7 @@ package com.javaex.service;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,16 @@ public class GalleryService {
 	
 	@Autowired
 	private GalleryDao galDao;
+	
+	//리스트
+	public List<GalleryVo> getList() {
+		System.out.println("[GalleryService.getList()]");
+		
+		return galDao.selectList();
+	}
 
 	//사진 등록
-	public String upload(MultipartFile file, String content, int userNo) {
+	public void upload(MultipartFile file, String content, int userNo, String userName) {
 		System.out.println("[GalleryService.upload()]");
 		System.out.println(file.getOriginalFilename()); 
 		
@@ -62,10 +70,8 @@ public class GalleryService {
 		}
 		
 		//DB에 저장
-		GalleryVo galVo = new GalleryVo(userNo, content, filePath, orgName, saveName, fileSize);
+		GalleryVo galVo = new GalleryVo(userNo, userName, content, filePath, orgName, saveName, fileSize);
 		galDao.insert(galVo);
-		
-		return saveName;
 		
 	}
 }

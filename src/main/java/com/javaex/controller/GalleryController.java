@@ -1,5 +1,7 @@
 package com.javaex.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.GalleryService;
+import com.javaex.vo.GalleryVo;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -22,15 +25,20 @@ public class GalleryController {
 
 	//사진 리스트 출력 (ajax)
 	@RequestMapping(value="/list", method={RequestMethod.GET, RequestMethod.POST})
-	public String list() {
+	public String list(Model model) {
 		System.out.println("[GalleryCtrl.list()]");
+		
+		List<GalleryVo> galList = galService.getList();
+		System.out.println(galList);
+
+		model.addAttribute("galList", galList);
 		
 		return "/gallery/list";
 	}
 	
 	//사진 등록(form방식, 리스트페이지로 리다이렉트)
 	@RequestMapping(value="/upload", method={RequestMethod.GET, RequestMethod.POST})
-	public String upload(@RequestParam("file") MultipartFile file, @RequestParam("content") String content, Model model, HttpSession session) {
+	public String upload(@RequestParam("content") String content, @RequestParam("file") MultipartFile file, HttpSession session) {
 		System.out.println("[GalleryCtrl.upload()]");
 		
 		//파일명, 사이즈 출력
@@ -39,11 +47,9 @@ public class GalleryController {
 		
 		//세션받아서 userNo 넘기기
 		int userNo = ((UserVo)session.getAttribute("authUser")).getNo();
+		String userName = ((UserVo)session.getAttribute("authUser")).getName();
 		
-		String saveName = galService.upload(file, content, userNo);
-		System.out.println("[GalleryCtrl.upload()] --> "+saveName);
-		
-		model.addAttribute("saveName", saveName); 
+		galService.upload(file, content, userNo, userName);
 		
 		//리스트로 리다이렉트
 		return "redirect:/gallery/list";
