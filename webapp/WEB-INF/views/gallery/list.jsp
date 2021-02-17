@@ -149,8 +149,14 @@
 					<!-- 사진 no -->
 					<input id="modalNo" type="text" name="galNo" value="">
 					
-					<!-- 유저 no -->
-					<input id="userNo" type="text" name="userNo" value="">
+					<!-- 등록 유저 no -->
+					<input id="imgUserNo" type="text" name="imgUserNo" value="">
+					
+					<!-- 삭제 버튼 여부를 가리기 위해 현재 로그인한 유저 no 추가 -->
+					<input id="userNo" type="text" name="userNo" value="${authUser.no }">
+					
+					<!-- js에서 session을 가져오지는 못하고 window.sessionStorage를 쓸 수도 있다고 함.
+						 window는 클라이언트 측 js 전역객체. https://heewon26.tistory.com/14 -->
 				
 				</form>
 				
@@ -175,13 +181,19 @@
 	$("#viewArea").on("click", "li", function(){
 		console.log("이미지보기 모달창 호출");
 		
-		var no = $(this).data("no"); //다른 태그말고 li에 data-no 추가
+		//사진 번호 : 다른 태그말고 li에 data-no 추가해야됨.
+		var no = $(this).data("no"); 
 		$("#modalNo").val(no);
 		
-		var userNo = $(this).data("userno");
-		$("#userNo").val(userNo);
+		//등록유저 번호
+		var imgUserNo = $(this).data("userno");
+		$("#imgUserNo").val(imgUserNo);
 		
+		//현재 로그인한 유저 번호
+		var userNo = $("#userNo").val();
+				
 		console.log("no : "+no);
+		console.log("imgUserNo : "+imgUserNo);
 		console.log("userNo : "+userNo);
 		
 		//ajax방식으로 요청(보기)
@@ -206,8 +218,14 @@
 				$("#viewModelImg").attr("src", saveName);
 				$("#viewModelContent").text(content);
 				
-				//유저번호 비교해서 본인 글만 지울 수 있도록 추가
-				//btnDel
+				//사진 등록한 유저번호와 현재 로그인한 유저번호 비교해서 본인 글에만 삭제 버튼 보임.
+				if(imgUserNo == userNo){
+					$("#btnDel").show();
+				
+				} else {
+					$("#btnDel").hide();
+				}
+				
 				
 				
 			},
