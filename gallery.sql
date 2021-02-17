@@ -50,3 +50,7 @@ SELECT  g.no,
 FROM gallery g, users u
 where g.user_no = u.no
 and g.no=3;
+
+--삭제
+delete from gallery
+where no=2;

@@ -49,5 +49,13 @@
 			and g.no=#{no}
 		]]>
 	</select>
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		<![CDATA[
+			delete from gallery
+			where no=#{no}
+		]]>
+	</delete>
 
 </mapper>

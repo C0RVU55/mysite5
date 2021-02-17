@@ -32,6 +32,12 @@ public class GalleryService {
 		
 		return galDao.selectOne(no);
 	}
+	
+	//삭제
+	public int remove(int no) {
+		System.out.println("[GalleryService.remove()] --> "+no);
+		return galDao.delete(no);
+	}
 
 	//사진 등록
 	public void upload(MultipartFile file, String content, int userNo) {

@@ -37,5 +37,12 @@ public class GalleryDao {
 		
 		sqlSession.insert("gallery.insert", galVo);
 	}
+	
+	//삭제
+	public int delete(int no) {
+		System.out.println("[GalleryDao.delete()] -->"+no);
+		
+		return sqlSession.delete("gallery.delete", no);
+	}
 
 }

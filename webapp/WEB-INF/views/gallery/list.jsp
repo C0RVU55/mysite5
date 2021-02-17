@@ -58,7 +58,7 @@
 						<!-- 이미지반복영역 -->
 						<c:forEach items="${galList }" var="vo">
 							<!-- 이미지 no의 data-no를 다른 input 안에 넣으면 인식 안 됨 -->
-							<li data-no="${vo.no }">
+							<li id="t-${vo.no }" data-no="${vo.no }" data-userno="${vo.userNo }">
 							
 								<div class="view" >
 									<img class="imgItem" src="${pageContext.request.contextPath }/upload/${vo.saveName}">
@@ -141,14 +141,16 @@
 					
 				</div>
 				<form method="post" action="${pageContext.request.contextPath }/gallery/remove">
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+						<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
+					</div>
 					
-				</div>
-				
-				<!-- 이미지의 no -->
-				<input id="modalNo" type="text" name="galNo" value="">
+					<!-- 사진 no -->
+					<input id="modalNo" type="text" name="galNo" value="">
+					
+					<!-- 유저 no -->
+					<input id="userNo" type="text" name="userNo" value="">
 				
 				</form>
 				
@@ -175,8 +177,12 @@
 		
 		var no = $(this).data("no"); //다른 태그말고 li에 data-no 추가
 		$("#modalNo").val(no);
-		console.log(no);
 		
+		var userNo = $(this).data("userno");
+		$("#userNo").val(userNo);
+		
+		console.log("no : "+no);
+		console.log("userNo : "+userNo);
 		
 		//ajax방식으로 요청(보기)
 		$.ajax({
@@ -201,9 +207,11 @@
 				$("#viewModelContent").text(content);
 				
 				//유저번호 비교해서 본인 글만 지울 수 있도록 추가
+				//btnDel
+				
 				
 			},
-			error : function(XHR, status, error) { //오류메세지 보려고 쓰는 거
+			error : function(XHR, status, error) { 
 				console.error(status + " : " + error);
 			}
 		});
@@ -229,10 +237,16 @@
 			data : {no: no},
 
 			dataType : "json",
-			success : function(){ 
-
+			success : function(count){ 
+				
+				//삭제 확인
+				console.log(count);
+				
+				//화면에서 삭제
+				$("#t-"+no).remove(); 
+				
 			},
-			error : function(XHR, status, error) { //오류메세지 보려고 쓰는 거
+			error : function(XHR, status, error) {
 				console.error(status + " : " + error);
 			}
 		});

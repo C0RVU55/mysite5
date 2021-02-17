@@ -68,9 +68,12 @@ public class GalleryController {
 	}
 	
 	//삭제
+	@ResponseBody
 	@RequestMapping(value="/remove", method={RequestMethod.GET, RequestMethod.POST})
-	public void remove(@RequestParam("no") int no) {
+	public int remove(@RequestParam("no") int no) {
 		System.out.println("[GalleryCtrl.remove()] --> "+no);
+		
+		return galService.remove(no);
 	}
 	
 }
