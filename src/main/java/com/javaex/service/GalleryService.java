@@ -25,9 +25,16 @@ public class GalleryService {
 		
 		return galDao.selectList();
 	}
+	
+	//사진 보기
+	public GalleryVo read(int no) {
+		System.out.println("[GalleryService.read()]");
+		
+		return galDao.selectOne(no);
+	}
 
 	//사진 등록
-	public void upload(MultipartFile file, String content, int userNo, String userName) {
+	public void upload(MultipartFile file, String content, int userNo) {
 		System.out.println("[GalleryService.upload()]");
 		System.out.println(file.getOriginalFilename()); 
 		
@@ -70,7 +77,7 @@ public class GalleryService {
 		}
 		
 		//DB에 저장
-		GalleryVo galVo = new GalleryVo(userNo, userName, content, filePath, orgName, saveName, fileSize);
+		GalleryVo galVo = new GalleryVo(userNo, content, filePath, orgName, saveName, fileSize);
 		galDao.insert(galVo);
 		
 	}

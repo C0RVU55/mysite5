@@ -25,15 +25,28 @@ start with 1
 nocache;
 
 --출력
-SELECT  no,
-        user_no,
+SELECT  g.no,
+        g.user_no userNo,
+        u.name userName,
         content,
         filePath,
         orgName,
         saveName,
         fileSize
-FROM gallery;
+FROM gallery g, users u
+where g.user_no = u.no
+order by g.no asc;
 
 --입력
 insert into gallery
 values(seq_gallery_no.nextval, 1, '내용', '경로', '원래이름', '저장이름', 10);
+
+--사진 정보
+SELECT  g.no,
+        g.user_no userNo,
+        u.name userName,
+        content,
+        saveName
+FROM gallery g, users u
+where g.user_no = u.no
+and g.no=3;

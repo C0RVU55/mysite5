@@ -7,14 +7,17 @@
 	<!-- 전체리스트 -->
 	<select id="selectList" resultType="GalleryVo"> 
 		<![CDATA[ 
-			SELECT  no,
-			        user_no userNo,
+			SELECT  g.no,
+			        g.user_no userNo,
+			        u.name userName,
 			        content,
 			        filePath,
 			        orgName,
 			        saveName,
 			        fileSize
-			FROM gallery
+			FROM gallery g, users u
+			where g.user_no = u.no
+			order by g.no asc
 		]]>
 	</select>
 
@@ -33,6 +36,18 @@
 		]]>
 	</insert>
 
-
+	<!-- 사진 정보 -->
+	<select id="selectOne" parameterType="int" resultType="GalleryVo">
+		<![CDATA[
+			SELECT  g.no,
+			        g.user_no userNo,
+			        u.name userName,
+			        content,
+			        saveName
+			FROM gallery g, users u
+			where g.user_no = u.no
+			and g.no=#{no}
+		]]>
+	</select>
 
 </mapper>

@@ -57,11 +57,14 @@
 						
 						<!-- 이미지반복영역 -->
 						<c:forEach items="${galList }" var="vo">
-							<li>
+							<!-- 이미지 no의 data-no를 다른 input 안에 넣으면 인식 안 됨 -->
+							<li data-no="${vo.no }">
+							
 								<div class="view" >
 									<img class="imgItem" src="${pageContext.request.contextPath }/upload/${vo.saveName}">
-									<div class="imgWriter">작성자: <strong>${vo.userName}</strong></div> <!-- 이름 null 상태 수정하기 -->
+									<div class="imgWriter">작성자: <strong>${vo.userName}</strong></div>
 								</div>
+
 							</li>
 						</c:forEach>
 						<!-- 이미지반복영역 -->
@@ -137,12 +140,15 @@
 					</div>
 					
 				</div>
-				<form method="" action="">
-					<div class="modal-footer">
+				<form method="post" action="${pageContext.request.contextPath }/gallery/remove">
+				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 					<button type="button" class="btn btn-danger" id="btnDel">삭제</button>
+					
 				</div>
 				
+				<!-- 이미지의 no -->
+				<input id="modalNo" type="text" name="galNo" value="">
 				
 				</form>
 				
@@ -162,7 +168,78 @@
 		$("#addModal").modal();
 		
 	});
+	
+	//이미지 보기
+	$("#viewArea").on("click", "li", function(){
+		console.log("이미지보기 모달창 호출");
+		
+		var no = $(this).data("no"); //다른 태그말고 li에 data-no 추가
+		$("#modalNo").val(no);
+		console.log(no);
+		
+		
+		//ajax방식으로 요청(보기)
+		$.ajax({
 
+			url : "${pageContext.request.contextPath }/gallery/read",		
+			type : "post",
+			//contentType : "application/json",
+			data : {no: no},
+
+			dataType : "json",
+			success : function(galVo){ 
+				console.log(galVo);
+				
+				var saveName = "${pageContext.request.contextPath }/upload/"+galVo.saveName;
+				var content = galVo.content;
+				
+				//console.log(saveName);
+				//console.log(content);
+				
+				//attr('속성', '속성값') : src="", alt="", title="", a태그의 href="" target="" 등의 값을 변경
+				$("#viewModelImg").attr("src", saveName);
+				$("#viewModelContent").text(content);
+				
+				//유저번호 비교해서 본인 글만 지울 수 있도록 추가
+				
+			},
+			error : function(XHR, status, error) { //오류메세지 보려고 쓰는 거
+				console.error(status + " : " + error);
+			}
+		});
+		
+		$("#viewModal").modal();
+	});
+	
+	
+	//삭제 (처음에 바로 #btnDel로 했는데 범위가 #modalNo까지 안 닿아서 인식을 못함)
+	$("#viewModal").on("click", "#btnDel",function(){
+		console.log("삭제버튼")
+		
+		var no = $("#modalNo").val();
+		//var no = ("#modalNo").data("no");
+		console.log(no);
+		
+		//ajax방식으로 요청(삭제)
+		$.ajax({
+
+			url : "${pageContext.request.contextPath }/gallery/remove",		
+			type : "post",
+			//contentType : "application/json",
+			data : {no: no},
+
+			dataType : "json",
+			success : function(){ 
+
+			},
+			error : function(XHR, status, error) { //오류메세지 보려고 쓰는 거
+				console.error(status + " : " + error);
+			}
+		});
+		
+		$("#viewModal").modal("hide");
+		
+	});
 
 </script>
 

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.javaex.service.GalleryService;
@@ -47,12 +48,29 @@ public class GalleryController {
 		
 		//세션받아서 userNo 넘기기
 		int userNo = ((UserVo)session.getAttribute("authUser")).getNo();
-		String userName = ((UserVo)session.getAttribute("authUser")).getName();
 		
-		galService.upload(file, content, userNo, userName);
+		galService.upload(file, content, userNo);
 		
 		//리스트로 리다이렉트
 		return "redirect:/gallery/list";
+	}
+	
+	//사진 보기 (jsp에서 json으로 보낼 때 RequestBody로 받는 거)
+	@ResponseBody
+	@RequestMapping(value="/read", method={RequestMethod.GET, RequestMethod.POST})
+	public GalleryVo read(@RequestParam("no") int no) {
+		System.out.println("[GalleryCtrl.read()] --> "+no);
+		
+		//GalleryVo galVo = galService.read(no);
+		//System.out.println(galVo);
+		
+		return galService.read(no);
+	}
+	
+	//삭제
+	@RequestMapping(value="/remove", method={RequestMethod.GET, RequestMethod.POST})
+	public void remove(@RequestParam("no") int no) {
+		System.out.println("[GalleryCtrl.remove()] --> "+no);
 	}
 	
 }

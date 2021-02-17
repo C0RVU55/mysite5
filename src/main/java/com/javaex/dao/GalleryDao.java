@@ -24,6 +24,13 @@ public class GalleryDao {
 		return sqlSession.selectList("gallery.selectList");
 	}
 	
+	//사진 정보
+	public GalleryVo selectOne(int no) {
+		System.out.println("[GalleryDao.selectOne()]");
+		
+		return sqlSession.selectOne("gallery.selectOne", no);
+	}
+	
 	//DB 등록
 	public void insert(GalleryVo galVo) {
 		System.out.println("[GalleryDao.insert()] --> "+galVo);
