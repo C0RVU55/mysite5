@@ -47,7 +47,8 @@
 
 			<div id="gallery">
 				<div id="list">
-			
+						
+						<!-- 로그인 상태만 가능 -->
 						<c:if test="${authUser != null }">
 							<button id="btnImgUpload">이미지올리기</button>
 							<div class="clear"></div>
@@ -57,8 +58,8 @@
 						
 						<!-- 이미지반복영역 -->
 						<c:forEach items="${galList }" var="vo">
-							<!-- 이미지 no의 data-no를 다른 input 안에 넣으면 인식 안 됨 -->
-							<li id="t-${vo.no }" data-no="${vo.no }" data-userno="${vo.userNo }">
+							<!-- 이미지 no의 data-no를 새로 만든 input 안에 넣으면 인식 안 됨 -->
+							<li id="t-${vo.no }" data-no="${vo.no }" data-userno="${vo.userNo }"> <!-- 여기에서 얻을 수 있는 건 다 얻으려고 일단 태그 넣음. -->
 							
 								<div class="view" >
 									<img class="imgItem" src="${pageContext.request.contextPath }/upload/${vo.saveName}">
@@ -181,7 +182,8 @@
 	$("#viewArea").on("click", "li", function(){
 		console.log("이미지보기 모달창 호출");
 		
-		//사진 번호 : 다른 태그말고 li에 data-no 추가해야됨.
+		//forEach에 있는 데이터를 data가 아니라 val로 가져오면 다른 사진이라도 다 같은 숫자만 나옴.
+		//사진 번호 : 다른 태그말고 li에 data-no 추가해야됨. 
 		var no = $(this).data("no"); 
 		$("#modalNo").val(no);
 		
@@ -225,9 +227,7 @@
 				} else {
 					$("#btnDel").hide();
 				}
-				
-				
-				
+
 			},
 			error : function(XHR, status, error) { 
 				console.error(status + " : " + error);
@@ -274,8 +274,6 @@
 	});
 
 </script>
-
-
 
 
 </html>

@@ -17,7 +17,7 @@
 			        fileSize
 			FROM gallery g, users u
 			where g.user_no = u.no
-			order by g.no asc
+			order by g.no desc
 		]]>
 	</select>
 
